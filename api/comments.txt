@@ -1,0 +1,8 @@
+1) Put the stripe secret key back to the process.env file
+2) Put Navbar drawer for smaller screen sizes
+3) Fix the homepage slider
+4) Put an enum to campaign categories
+5) Homepage search form should be a select form for all the categories that we have.
+6) Put verifyTokenAndAdmin to Get User router
+6) Put verifyTokenAndAdmin to Get User By Name router
+
