@@ -29,7 +29,7 @@ router.get("/income", verifyToken, async (req, res) => {
       { $project: { month: { $month: "$createdAt" }, sales: "$amount" } },
       { $group: { _id: "$month", total: { $sum: "$sales" } } },
     ]);
-    console.log(income);
+    console.log("income", income);
     res.status(200).json(income);
   } catch (err) {
     res.status(500).json(err);
@@ -104,10 +104,24 @@ router.get("/newcustomers", verifyToken, async (req, res) => {
 router.post("/", verifyToken, async (req, res) => {
   const newOrder = new Order(req.body);
   newOrder.userId = req.user.id;
+  console.log("newOrder", newOrder);
 
   try {
-    const savedOrder = await newOrder.save();
-    res.status(201).json(savedOrder);
+    for (let i = 0; i < newOrder.campaignId.length; i++) {
+      const foundCampaign = await Campaign.findById(newOrder.campaignId[i]);
+      const newCurrent = foundCampaign.current + foundCampaign.perPrice;
+      const updatedCampaign = await Campaign.findByIdAndUpdate(
+        newOrder.campaignId[i],
+        { current: newCurrent }
+      );
+      console.log(updatedCampaign);
+    }
+    try {
+      const savedOrder = await newOrder.save();
+      res.status(201).json(savedOrder);
+    } catch (err) {
+      res.status(500).json(err);
+    }
   } catch (err) {
     res.status(500).json(err);
   }

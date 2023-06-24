@@ -39,7 +39,11 @@ function Review({ review, index, expandedIndex, setExpandedIndex }) {
       className="mx-2 sm:mx-auto bg-gray-100 p-4 rounded-lg w-full my-2 h-fit"
     >
       <div className="flex items-center mb-4 space-x-4">
-        <img className="w-10 h-10 rounded-full" src={author.profilePic}></img>
+        <img
+          className="w-10 h-10 rounded-full"
+          src={author.profilePic}
+          alt="profilepic"
+        ></img>
         <div className="space-y-1 font-semibold text-black text-left">
           {author.fullname}
           <p>

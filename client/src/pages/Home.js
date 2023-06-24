@@ -2,25 +2,14 @@ import React from "react";
 import Navbar from "../components/Navbar";
 import Announcement from "../components/Announcement";
 import Slider from "../components/Slider";
-import SearchBar from "../components/SearchBar";
 import CardRow from "../components/CardRow";
 import Button from "../components/Button";
-import Category from "../components/Category";
 import Footer from "../components/Footer";
-import { categories } from "../data";
+import { Link } from "react-router-dom";
+import "../loader.css";
+import HomeCategories from "../components/HomeCategories";
 
 function Home() {
-  const renderedCategories = categories.map((category) => {
-    return (
-      <Category
-        key={category.id}
-        cover={category.cover}
-        title={category.title}
-        secondaryText={category.secondaryText}
-        cat={category.cat}
-      ></Category>
-    );
-  });
   return (
     <div className="container max-w-full h-full text-center">
       <Announcement></Announcement>
@@ -40,7 +29,7 @@ function Home() {
             </div>
           </div>
         </div>
-        <SearchBar></SearchBar>
+        {/* <SearchBar></SearchBar> */}
         <div className="text-gray-600 text-2xl text-center">
           People of Delhi Technology University
         </div>
@@ -49,9 +38,15 @@ function Home() {
           <div className="text-gray-600 text-2xl text-center">
             Our Top Collections
           </div>
-          {renderedCategories}
+          <HomeCategories></HomeCategories>
         </div>
       </div>
+      <Link
+        to="/categories"
+        className="font-semibold text-xl text-gray-600 hover:bg-gray-100 p-4 rounded-lg cursor-pointer"
+      >
+        View all collections
+      </Link>
       <Footer></Footer>
     </div>
   );

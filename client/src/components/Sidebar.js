@@ -4,8 +4,7 @@ import PreviousCampaigns from "./PreviousCampaigns";
 import Goal from "./Goal";
 import Reviews from "./Reviews";
 
-function Sidebar({ foundCampaign, foundAuthor, foundReviews }) {
-  console.log("in sidebar", foundAuthor);
+function Sidebar({ foundCampaign, foundAuthor, foundReviews, prevCampaigns }) {
   const links = [
     { label: "Work Description", to: "WorkDescription" },
     { label: "Goal", to: "Goal" },
@@ -27,8 +26,8 @@ function Sidebar({ foundCampaign, foundAuthor, foundReviews }) {
       key: "PreviousCampaigns",
       element: (
         <PreviousCampaigns
-          foundCampaign={foundCampaign}
           foundAuthor={foundAuthor}
+          prevCampaigns={prevCampaigns}
         ></PreviousCampaigns>
       ),
     },

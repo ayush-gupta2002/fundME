@@ -1,7 +1,5 @@
 const router = require("express").Router();
-const stripe = require("stripe")(
-  "sk_test_51MdZ5JSDS1FKTFkyaZxz9ImHC7MYlFSvXjsBcKb3lqY2DPG0ufGrLo7FpnpRycRgvA2OVHCdv4C6tf7aXfSxJwY900RGv4WVGK"
-);
+const stripe = require("stripe")(process.env.STRIPE_KEY);
 const Payment = require("../models/Payment");
 const Order = require("../models/Order");
 
@@ -15,26 +13,11 @@ router.post("/", async (req, res) => {
       payment_method: id,
       confirm: true,
     });
-    // console.log("payment", payment);
     if (payment.status == "succeeded") {
-      // const newPayment = new Payment({
-      //   paymentID: payment.id,
-      //   amount: payment.amount / 100,
-      //   userID: user._id,
-      // });
-      // const savedPayment = await newPayment.save();
-      // console.log("savedPayment", savedPayment);
       res
         .status(201)
         .json({ message: "Payment Successful", success: true, id: payment.id });
     } else if (payment.status == "requires_action") {
-      // const newPayment = new Payment({
-      //   paymentID: payment.id,
-      //   amount: payment.amount / 100,
-      //   customerID: user._id,
-      // });
-      // const savedPayment = await newPayment.save();
-      // console.log("savedPayment", savedPayment);
       res.status(200).json({
         message: "3D secure required",
         actionRequired: true,

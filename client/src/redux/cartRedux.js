@@ -31,8 +31,20 @@ const cartSlice = createSlice({
       }
       state.total = newPrice;
     },
+    eraseCart: (state) => {
+      state.products = [];
+      state.quantity = 0;
+      state.total = 0;
+    },
+    loadCart: (state, action) => {
+      console.log("payload", action);
+      state.products = action.payload.campaignId;
+      state.total = action.payload.amount;
+      state.quantity = action.payload.quantity;
+    },
   },
 });
 
-export const { addProduct, removeProduct } = cartSlice.actions;
+export const { addProduct, removeProduct, eraseCart, loadCart } =
+  cartSlice.actions;
 export default cartSlice.reducer;

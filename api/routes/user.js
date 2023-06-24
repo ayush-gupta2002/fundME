@@ -1,5 +1,9 @@
 const User = require("../models/User");
-const { verifyTokenAndAdmin, verifyTokenAndAuth } = require("./verifyToken");
+const {
+  verifyTokenAndAdmin,
+  verifyTokenAndAuth,
+  verifyToken,
+} = require("./verifyToken");
 const router = require("express").Router();
 
 //EDIT
@@ -38,7 +42,8 @@ router.delete("/:id", verifyTokenAndAuth, async (req, res) => {
 router.get("/find/:id", async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
-    const { hash, salt, ...others } = user._doc;
+    const { hash, salt, orders, reviews, isAdmin, updatedAt, __v, ...others } =
+      user._doc;
     res.status(200).json(others);
   } catch (err) {
     res.status(500).json(err);

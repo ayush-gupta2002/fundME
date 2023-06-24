@@ -60,6 +60,7 @@ function Cart() {
           <img
             className="rounded-full w-10 h-10 border-gray-700 b-2 my-auto mr-4"
             src={campaign.img[0]}
+            alt="campaign cover"
           ></img>
           <div className="font-bold text-3xl">{campaign.title}</div>
           <div className="font-semibold text-2xl my-auto mx-3">
@@ -72,7 +73,7 @@ function Cart() {
   });
 
   const handleNext = () => {
-    if (visibleIndex == cart.products.length - 1) {
+    if (visibleIndex === cart.products.length - 1) {
       setVisibleIndex(0);
     } else {
       setVisibleIndex(visibleIndex + 1);
@@ -80,7 +81,7 @@ function Cart() {
   };
 
   const handlePrev = () => {
-    if (visibleIndex == 0) {
+    if (visibleIndex === 0) {
       setVisibleIndex(cart.products.length - 1);
     } else {
       setVisibleIndex(visibleIndex - 1);

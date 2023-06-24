@@ -14,6 +14,8 @@ import Campaign from "./pages/Campaign";
 import NewCampaign from "./pages/NewCampaign";
 import Login from "./pages/Login";
 import { useSelector } from "react-redux";
+import Reviews from "./pages/Reviews";
+import Orders from "./pages/Orders";
 
 function App() {
   const user = useSelector((state) => state.user.currentUser);
@@ -31,6 +33,8 @@ function App() {
       path: "/login",
       element: <Home></Home>,
     },
+    { path: "/reviews", element: <Reviews></Reviews> },
+    { path: "/orders", element: <Orders></Orders> },
   ];
 
   useEffect(() => {

@@ -19,6 +19,7 @@ const CampaignSchema = new mongoose.Schema(
       default: "Available",
     },
     perPrice: { type: Number, required: true },
+    reviews: [{ type: mongoose.Schema.Types.ObjectId }],
   },
   { timestamps: true }
 );

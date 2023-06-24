@@ -44,12 +44,11 @@ function CategoryPage() {
                 onChange={(event) => {
                   setSort(event.target.value);
                 }}
+                defaultValue="date"
               >
                 <option value="price">Price</option>
                 <option value="targetcompletion">Target Completion</option>
-                <option selected value="date">
-                  Newest
-                </option>
+                <option value="date">Newest</option>
               </select>
             </div>
           </div>

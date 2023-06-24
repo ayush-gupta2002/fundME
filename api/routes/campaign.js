@@ -7,13 +7,14 @@ const Order = require("../models/Order");
 //CREATE
 
 router.post("/", verifyToken, async (req, res) => {
-  console.log("req", req.body);
-  console.log("img", req.body.img);
   const newCampaign = new Campaign(req.body.campaign);
-  console.log("newCampaign", newCampaign);
+  newCampaign.reviews = [];
   try {
     newCampaign.author = req.user.id;
     const savedCampaign = await newCampaign.save();
+    const foundAuthor = await User.findById(req.user.id);
+    foundAuthor.campaigns.push(savedCampaign._id);
+    await foundAuthor.save();
     res.status(200).json(savedCampaign);
   } catch (err) {
     res.status(500).json(err);

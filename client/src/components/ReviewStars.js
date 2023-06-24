@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import React, { useState } from "react";
+import React from "react";
 import SoloStar from "./SoloStar";
 
 //text-black font-semibold text-sm ml-1 line-clamp-1

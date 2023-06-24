@@ -9,12 +9,22 @@ const {
 //CREATE
 
 router.post("/", verifyToken, async (req, res) => {
-  const newCart = new Cart(req.body);
-  newCart.userId = req.user.id;
-
+  let finalCart;
+  console.log("cart:", req.body);
   try {
-    const savedCart = await newCart.save();
-    res.status(201).json(savedCart);
+    const foundCart = await Cart.findOne({ userId: req.body.userId });
+    console.log("before updating", foundCart);
+    if (foundCart) {
+      foundCart.campaignId = req.body.campaignId;
+      foundCart.amount = req.body.amount;
+      foundCart.quantity = req.body.quantity;
+      console.log("After updating", foundCart);
+      finalCart = await foundCart.save();
+    } else {
+      const newCart = new Cart(req.body);
+      finalCart = await newCart.save();
+    }
+    res.status(201).json(finalCart);
   } catch (err) {
     res.status(500).json(err);
   }
@@ -39,7 +49,7 @@ router.put("/:id", verifyTokenAndAuth, async (req, res) => {
 
 router.get("/:id", verifyTokenAndAuth, async (req, res) => {
   try {
-    const foundCart = await Cart.find({ userId: req.params.id });
+    const foundCart = await Cart.findOne({ userId: req.params.id });
     res.status(200).json(foundCart);
   } catch (err) {
     res.status(500).json(err);

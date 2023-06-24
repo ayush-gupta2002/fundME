@@ -19,11 +19,11 @@ function NewCampaign() {
   });
   const [file, setFile] = useState([]);
   const [urls, setUrls] = useState([]);
-  console.log(file);
 
   const handleUpload = (e) => {
     e.preventDefault();
     setUrls([]);
+    console.log(file[0]);
     for (let i = 0; i < file.length; i++) {
       const imageRef = ref(storage, `images/${file[i].name + v4()}`);
       uploadBytes(imageRef, file[i])
@@ -33,6 +33,7 @@ function NewCampaign() {
         })
         .then((downloadURL) => {
           urls.push(downloadURL);
+          console.log(downloadURL);
           setUrls(urls);
         });
     }
@@ -160,7 +161,11 @@ function NewCampaign() {
                   type="file"
                   id="img"
                   className="bg-gray-100 p-2 w-1/3 rounded-lg cursor-pointer text-lg text-gray-600 h-fit"
-                  onChange={(e) => setFile(e.target.files)}
+                  onChange={(e) => {
+                    setFile(e.target.files);
+                    // console.log("target", e.target.files);
+                    // console.log("file", file);
+                  }}
                 ></input>
                 <button
                   className="p-2 bg-gray-100 mx-2 font-semibold shadow-lg cursor-pointer hover:bg-gray-200 h-fit"

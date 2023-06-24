@@ -2,7 +2,7 @@ import React from "react";
 import { MdArrowForwardIos } from "react-icons/md";
 import { Link } from "react-router-dom";
 
-function Category({ cover, title, secondaryText, cat }) {
+function Category({ cover, title, cat }) {
   return (
     <div className="mt-3 mb-2 flex sm:block">
       <Link to={`/campaigns/${cat}`} className="w-full">
@@ -18,9 +18,6 @@ function Category({ cover, title, secondaryText, cat }) {
         </div>
       </Link>
       <div className="my-auto sm:mt-2 sm:my-0 w-2/6 sm:w-full mx-2 sm:mx-0">
-        <div className="mx-auto sm:mx-0 sm:text-left text-sm">
-          {secondaryText}
-        </div>
         <Link to={`/campaigns/${cat}`}>
           <div className="flex sm:mt-2">
             <div className="font-semibold text-xs sm:text-left cursor-pointer my-2 sm:my-auto">

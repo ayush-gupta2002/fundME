@@ -1,6 +1,30 @@
 const router = require("express").Router();
+const Campaign = require("../models/Campaign");
 const Review = require("../models/Review");
 const { verifyToken } = require("./verifyToken");
+const User = require("../models/User");
+//GET ALL AUTHOR REVIEWS
+
+router.post("/author", verifyToken, async (req, res) => {
+  const campaigns = req.body;
+  try {
+    try {
+      let reviews = [];
+      for (let i = 0; i < campaigns.length; i++) {
+        const foundCampaign = await Campaign.findById(campaigns[i]);
+        for (let j = 0; j < foundCampaign.reviews.length; j++) {
+          const foundReview = await Review.findById(foundCampaign.reviews[j]);
+          reviews.push(foundReview);
+        }
+      }
+      res.status(200).json(reviews);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  } catch (err) {
+    console.log(err);
+  }
+});
 
 //CREATE
 router.post("/:id", async (req, res) => {
@@ -19,6 +43,13 @@ router.post("/:id", async (req, res) => {
 
   try {
     const savedReview = await newReview.save();
+    try {
+      const foundCampaign = await Campaign.findOne(newReview.campaignId);
+      foundCampaign.reviews.push(newReview);
+      await foundCampaign.save();
+    } catch (err) {
+      console.log(err);
+    }
     res.status(201).json(savedReview);
     console.log("success", savedReview);
   } catch (err) {

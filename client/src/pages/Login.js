@@ -1,5 +1,5 @@
 import Button from "../components/Button";
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import FormInput from "../components/FormInput";
 import { AiFillFacebook, AiFillGithub } from "react-icons/ai";
 import { SiGmail } from "react-icons/si";
@@ -7,20 +7,30 @@ import Navbar from "../components/Navbar";
 import { Link } from "react-router-dom";
 import { login } from "../redux/apiCalls";
 import { useDispatch, useSelector } from "react-redux";
+import { FlashContext } from "../App";
 
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const { setFlash } = useContext(FlashContext);
+  const user = useSelector((state) => state.user);
+
   const { isFetching, error } = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  console.log(username, password);
+
+  useEffect(() => {
+    if (!user.currentUser) {
+      setFlash("Logged out");
+    }
+  }, []);
+
   const handleClick = () => {
     login(dispatch, { username, password });
   };
-  console.log(error);
   return (
     <div className="text-center">
       <Navbar></Navbar>
+
       <div className="w-screen h-screen flex bg-gradient-to-r from-teal-100 via-yellow-100 to-orange-300">
         <div className="my-auto p-10 mx-4 sm:mx-auto w-[500px] h-fit bg-white rounded-xl">
           {error && (

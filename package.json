@@ -2,6 +2,7 @@
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.3",
     "bcryptjs": "^2.4.3",
+    "dotenv": "^16.3.1",
     "express-session": "^1.17.3",
     "number-to-date-month-name": "^1.0.2",
     "react-stripe-checkout": "^2.6.3",

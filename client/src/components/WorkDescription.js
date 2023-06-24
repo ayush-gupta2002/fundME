@@ -5,7 +5,6 @@ import classNames from "classnames";
 
 function WorkDescription({ foundCampaign, foundAuthor }) {
   const [isDescExpanded, setIsDescExpanded] = useState(false);
-  console.log(foundAuthor, "in work description");
 
   let expandedButton;
 

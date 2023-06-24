@@ -7,7 +7,8 @@ const { verifyToken } = require("./verifyToken");
 //REGISTER
 
 router.post("/register", async (req, res) => {
-  const { email, username, password, isAdmin } = req.body;
+  const { password } = req.body;
+  console.log(req.body);
   const newUser = new User(req.body);
   try {
     const registeredUser = await User.register(newUser, password);
@@ -26,6 +27,7 @@ router.post("/login", passport.authenticate("local"), async (req, res) => {
     { expiresIn: "3d" }
   );
   console.log(accessToken);
+  console.log("user: ", req.user);
   let loggedInUser = { ...req.user, accessToken };
 
   res.status(200).json(loggedInUser);
@@ -33,17 +35,15 @@ router.post("/login", passport.authenticate("local"), async (req, res) => {
 
 //LOGOUT
 
-router.get("/logout", verifyToken, async (req, res) => {
+router.get("/logout", async (req, res) => {
   console.log("Before logging out", req.user);
-  if (req.user) {
-    req.logout(function (err) {
-      if (err) {
-        return res.status(400).json({ error: true });
-      }
-    });
-    console.log("After logging out", req.user);
-    return res.status(201).json({ success: true });
-  }
+  req.logout(function (err) {
+    if (err) {
+      return res.status(400).json({ error: true });
+    }
+  });
+  console.log("After logging out", req.user);
+  return res.status(201).json({ success: true });
 });
 
 module.exports = router;

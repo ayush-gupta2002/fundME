@@ -1,4 +1,3 @@
-import { Widgets } from "@material-ui/icons";
 import className from "classnames";
 
 function Button({
@@ -45,12 +44,16 @@ function Button({
     }
   );
 
+  let newHandleClick = () => {};
+  if (handleClick) {
+    newHandleClick = handleClick;
+  }
   return (
     <button
       className={classes}
       disabled={isDisabled}
       onClick={() => {
-        handleClick();
+        newHandleClick();
       }}
       {...rest}
     >

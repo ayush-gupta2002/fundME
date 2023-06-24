@@ -14,24 +14,30 @@ function Footer() {
         </div>
         <div className="flex mt-3">
           <div className="flex mx-auto">
-            <div className="w-fit mx-2">
+            <a
+              className="w-fit mx-2"
+              href="https://www.linkedin.com/in/ayushgupta2002/"
+            >
               <AiFillLinkedin
                 className="mx-auto cursor-pointer opacity-70 hover:opacity-100"
-                size={25}
+                size={40}
               ></AiFillLinkedin>
-            </div>
-            <div className="w-fit mx-2">
+            </a>
+            <a className="w-fit mx-2" href="https://github.com/ayush-gupta2002">
               <AiFillGithub
                 className="mx-auto cursor-pointer opacity-70 hover:opacity-100"
-                size={25}
+                size={40}
               ></AiFillGithub>
-            </div>
-            <div className="w-fit mx-2">
+            </a>
+            <a
+              className="w-fit mx-2"
+              href="https://jazzy-melomakarona-63ff08.netlify.app"
+            >
               <BsGlobe
                 className="mx-auto cursor-pointer opacity-70 hover:opacity-100"
-                size={25}
+                size={40}
               ></BsGlobe>
-            </div>
+            </a>
           </div>
         </div>
       </div>

@@ -3,7 +3,6 @@ import Chart from "../components/Chart";
 import FeaturedInfo from "../components/FeaturedInfo";
 import WidgetLarge from "../components/WidgetLarge";
 import WidgetSmall from "../components/WidgetSmall";
-import { homeData } from "../dummyData";
 import Topbar from "../components/Topbar";
 import Sidebar from "../components/Sidebar";
 import { useSelector } from "react-redux";
@@ -32,6 +31,7 @@ function Home() {
       const res = await axios.get("http://localhost:3000/api/orders/income", {
         headers: { token: `Bearer ${user.accessToken}` },
       });
+      console.log(user.accessToken);
       let tempChartData = [];
       console.log(res.data);
       for (let i = 0; i < res.data.length; i++) {

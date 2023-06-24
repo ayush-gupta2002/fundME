@@ -17,7 +17,7 @@ const UserSchema = new mongoose.Schema(
       {
         type: String,
         default:
-          "https://media.istockphoto.com/id/1016744004/vector/profile-placeholder-image-gray-silhouette-no-photo.jpg?s=612x612&w=0&k=20&c=mB6A9idhtEtsFXphs1WVwW_iPBt37S2kJp6VpPhFeoA=",
+          "https://firebasestorage.googleapis.com/v0/b/fundme-6ee6d.appspot.com/o/images%2Fplaceholder.jpeg?alt=media&token=4193d35b-f3a9-4e3c-99be-0b83df9126d9",
       },
     ],
     workDesc: [{ type: String }],

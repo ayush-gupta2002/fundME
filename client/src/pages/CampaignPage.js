@@ -6,10 +6,11 @@ import Footer from "../components/Footer";
 import ImageSlider from "../components/ImageSlider";
 import Sidebar from "../components/Sidebar";
 import classNames from "classnames";
-import { Location, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import axios from "axios";
 import { addProduct } from "../redux/cartRedux";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 //font-normal text-lg mt-3 max-w-full line-clamp-4
 
@@ -19,6 +20,8 @@ function CampaignPage() {
   const [foundAuthor, setFoundAuthor] = useState({});
   const [foundReviews, setFoundReviews] = useState([]);
   const [sliderImg, setSliderImg] = useState([]);
+  const [prevCampaigns, setPrevCampaigns] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const user = useSelector((state) => state.user);
   const location = useLocation();
   const dispatch = useDispatch();
@@ -37,12 +40,15 @@ function CampaignPage() {
         );
         setFoundCampaign(res.data);
         setSliderImg(res.data.img);
+        if (foundCampaign && foundReviews && foundAuthor && prevCampaigns) {
+          setIsLoading(false);
+        }
       } catch (err) {
         console.log("uhoh", err);
       }
     };
     getCampaign();
-  }, [""]);
+  }, []);
 
   if (foundCampaign.availability === "Available") {
     buttonDisabled = false;
@@ -59,6 +65,9 @@ function CampaignPage() {
             `http://localhost:3000/api/users/find/${foundCampaign.author}`
           );
           setFoundAuthor(res.data);
+          if (foundCampaign && foundReviews && foundAuthor && prevCampaigns) {
+            setIsLoading(false);
+          }
         } catch (err) {
           console.log("User error", err);
         }
@@ -66,6 +75,22 @@ function CampaignPage() {
     };
     getUser();
   }, [foundCampaign]);
+
+  useEffect(() => {
+    const getPrevCampaigns = async () => {
+      if (foundAuthor) {
+        const res = await axios.get(
+          `http://localhost:3000/api/campaigns/user/${foundAuthor._id}`,
+          { headers: { token: `Bearer ${user.currentUser.accessToken}` } }
+        );
+        setPrevCampaigns(res.data);
+        if (foundCampaign && foundReviews && foundAuthor && prevCampaigns) {
+          setIsLoading(false);
+        }
+      }
+    };
+    getPrevCampaigns();
+  }, [foundAuthor]);
 
   useEffect(() => {
     const getReviews = async function () {
@@ -76,6 +101,9 @@ function CampaignPage() {
             { headers: { token: `Bearer ${token}` } }
           );
           setFoundReviews(res.data);
+          if (foundCampaign && foundReviews && foundAuthor && prevCampaigns) {
+            setIsLoading(false);
+          }
         } catch (err) {
           console.log("Reviews Error", err);
         }
@@ -83,12 +111,6 @@ function CampaignPage() {
     };
     getReviews();
   }, [foundCampaign]);
-
-  console.log("in campaign page reviews", foundReviews);
-
-  // console.log("in campaign page campaign id", campaignID);
-  // console.log("in campaign page campaign:", foundCampaign);
-  // console.log("foundAuthor", foundAuthor);
 
   const handleClick = () => {
     setIsExpanded(!isExpanded);
@@ -108,7 +130,6 @@ function CampaignPage() {
     "max-w-full": true,
     "line-clamp-4": !isExpanded,
   });
-  console.log(foundCampaign.perPrice);
 
   const handleBuy = () => {
     dispatch(
@@ -116,9 +137,14 @@ function CampaignPage() {
     );
   };
 
-  return (
-    <div className="w-full h-full text-center">
-      <Navbar></Navbar>
+  let content = (
+    <div className="w-full h-screen flex">
+      <div className="m-auto spinner"></div>
+    </div>
+  );
+
+  if (!isLoading) {
+    content = (
       <div className="w-4xl sm:mt-8">
         <div className="md:flex border-b-2 p-2 mx-3">
           <ImageSlider sliderImg={sliderImg}></ImageSlider>
@@ -133,17 +159,21 @@ function CampaignPage() {
             >
               {expandedButton}
             </div>
-            <div className="flex items-center mt-2 hover:bg-gray-100 rounded-lg p-2 cursor-pointer w-fit">
+            <Link
+              to={`/users/${foundAuthor._id}`}
+              className="flex items-center mt-2 hover:bg-gray-100 rounded-lg p-2 cursor-pointer w-fit"
+            >
               <img
                 className="w-10 h-10 rounded-full mr-4"
                 src={foundAuthor.profilePic}
+                alt="profile pic"
               ></img>
               <div className="text-xs">
                 <p className="text-gray-900 text-lg leading-none text-left line-clamp-1 text-left font-semibold">
                   {foundAuthor.fullname}
                 </p>
               </div>
-            </div>
+            </Link>
             <ProgressBar
               current={foundCampaign.current}
               goal={foundCampaign.target}
@@ -167,8 +197,16 @@ function CampaignPage() {
           foundCampaign={foundCampaign}
           foundAuthor={foundAuthor}
           foundReviews={foundReviews}
+          prevCampaigns={prevCampaigns}
         ></Sidebar>
       </div>
+    );
+  }
+
+  return (
+    <div className="w-full h-full text-center">
+      <Navbar></Navbar>
+      {content}
       <Footer></Footer>
     </div>
   );

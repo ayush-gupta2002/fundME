@@ -1,4 +1,3 @@
-import classNames from "classnames";
 import React, { useEffect, useState } from "react";
 import ReviewStars from "./ReviewStars";
 import Button from "./Button";

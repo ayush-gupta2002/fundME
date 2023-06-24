@@ -8,6 +8,7 @@ const campaignRoute = require("./routes/campaign");
 const cartRoute = require("./routes/cart");
 const orderRoute = require("./routes/order");
 const reviewRoute = require("./routes/review");
+const categoryRoute = require("./routes/category");
 const expressSession = require("express-session");
 const passport = require("passport");
 const localStrategy = require("passport-local");
@@ -83,6 +84,8 @@ app.use("/api/orders", orderRoute);
 app.use("/api/reviews", reviewRoute);
 
 app.use("/api/payments", cors(), stripeRoute);
+
+app.use("/api/categories", categoryRoute);
 
 app.get("/api/test", () => {
   console.log("test is successful");

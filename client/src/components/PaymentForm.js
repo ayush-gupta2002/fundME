@@ -53,7 +53,7 @@ function PaymentForm() {
           setSuccess(true);
           setPaymentId(response.data.id);
           const paymentIntent = response.data;
-          const resPayment = await axios
+          await axios
             .post(
               "http://localhost:3000/api/payments/save",
               {
@@ -74,7 +74,7 @@ function PaymentForm() {
                 campaignId[i] = cart.products[i]._id;
               }
 
-              const resOrder = await axios
+              await axios
                 .post(
                   "http://localhost:3000/api/orders",
                   {
@@ -104,14 +104,14 @@ function PaymentForm() {
             const { paymentIntent, error } = await stripe.confirmCardPayment(
               response.data.clientSecret
             );
-            console.log("payment Intent", paymentIntent);
+            // console.log("payment Intent", paymentIntent);
             if (error) {
               setSuccess(false);
             }
-            if (paymentIntent.status == "succeeded") {
+            if (paymentIntent.status === "succeeded") {
               setPaymentId(paymentIntent.id);
               setSuccess(true);
-              const resPayment = await axios
+              await axios
                 .post(
                   "http://localhost:3000/api/payments/save",
                   {
@@ -126,13 +126,13 @@ function PaymentForm() {
                   }
                 )
                 .then(async (res) => {
-                  console.log("saved Payment", res);
+                  // console.log("saved Payment", res);
                   let campaignId = [];
                   for (let i = 0; i < cart.products.length; i++) {
                     campaignId[i] = cart.products[i]._id;
                   }
 
-                  const resOrder = await axios
+                  await axios
                     .post(
                       "http://localhost:3000/api/orders",
                       {
@@ -149,7 +149,7 @@ function PaymentForm() {
                       }
                     )
                     .then((res) => {
-                      console.log("saved order", res);
+                      // console.log("saved order", res);
                       setOrderId(res.data._id);
                     })
                     .catch((err) => console.log(err));

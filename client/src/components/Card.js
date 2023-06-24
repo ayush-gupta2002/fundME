@@ -4,8 +4,10 @@ import CardContent from "./CardContent";
 import classNames from "classnames";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Card(props) {
+  const navigate = useNavigate();
   const [foundAuthor, setFoundAuthor] = useState({});
   const classes = classNames({
     flex: true,
@@ -35,7 +37,11 @@ function Card(props) {
     setFoundAuthor(response.data);
   }
   useEffect(() => {
-    getAuthor(author);
+    if (!props.foundAuthor) {
+      getAuthor(author);
+    } else {
+      setFoundAuthor(props.foundAuthor);
+    }
     // console.log("foundAuthor", foundAuthor);
   }, []);
   let cover;
@@ -49,7 +55,7 @@ function Card(props) {
 
   // "flex sm:block h-fit w-full sm:w-1/4 my-4 cursor-pointer shadow-lg hover:shadow-xl transform hover:scale-105 transition duration-500 mx-auto mx-1 sm:mx-4"
   return (
-    <div className={classes}>
+    <div onClick={() => navigate(`/campaign/${props.id}`)} className={classes}>
       {cover}
       <CardContent
         title={props.title}

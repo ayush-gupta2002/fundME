@@ -1,43 +1,35 @@
 import React, { useState } from "react";
-import MyCampaigns from "../components/MyCampaigns";
 import MyPurchases from "../components/MyPurchases";
 import MyReviews from "../components/MyReviews";
+import { useSelector } from "react-redux";
 
-function ViewProfile() {
+function ViewProfile({ orders, reviews }) {
   const [visibleContent, setVisibleContent] = useState("my-campaigns");
+  const user = useSelector((state) => state.user);
 
-  let content = <MyCampaigns></MyCampaigns>;
+  let content = <MyPurchases purchases={orders}></MyPurchases>;
 
-  if (visibleContent == "my-campaigns") {
-    content = <MyCampaigns></MyCampaigns>;
-  } else if (visibleContent == "my-purchases") {
-    content = <MyPurchases></MyPurchases>;
-  } else if (visibleContent == "my-reviews") {
-    content = <MyReviews></MyReviews>;
+  if (visibleContent === "my-purchases") {
+    content = <MyPurchases purchases={orders}></MyPurchases>;
+  } else if (visibleContent === "my-reviews") {
+    content = <MyReviews reviews={reviews}></MyReviews>;
   }
   return (
     <div>
       <div className="flex p-5">
         <img
-          src="https://media.istockphoto.com/id/1384357176/photo/portrait-of-a-handsome-mexican-man.jpg?s=612x612&w=is&k=20&c=7f7HD-K-Y4fF6HvEwEt7qcU_WCm_cpm3qXx1vRkJH_I="
+          alt="profile pic"
+          src={user.currentUser._doc.profilePic[0]}
           className="rounded-full w-20 h-20 my-auto ml-5 mx-4"
         ></img>
         <div className="text-gray-700 font-semibold text-4xl text-left my-auto">
-          Ayush Gupta
+          {user.currentUser._doc.fullname}
         </div>
       </div>
       <hr></hr>
       <div className="flex">
         <div className="w-1/2">
           <div className="flex w-full p-4">
-            <div
-              className="w-1/3 text-xl font-semibold hover:bg-gray-100 p-2 rounded-lg cursor-pointer max-w-fit m-2 hover:text-red-400"
-              onClick={() => {
-                setVisibleContent("my-campaigns");
-              }}
-            >
-              <h1>My Campaigns</h1>
-            </div>
             <div
               className="w-1/3 text-xl font-semibold hover:bg-gray-100 p-2 rounded-lg cursor-pointer max-w-fit m-2 hover:text-red-400"
               onClick={() => {
@@ -60,25 +52,16 @@ function ViewProfile() {
         <div className="w-1/2 p-10 text-left">
           <h1 className="text-gray-700 font-semibold text-2xl">Profile</h1>
           <div className="text-lg my-2">
-            <b>First Name</b> Ayush
+            <b>Name</b> {user.currentUser._doc.fullname}
           </div>
           <div className="text-lg my-2">
-            <b>Last Name</b> Gupta
+            <b>Email ID</b> {user.currentUser._doc.email}
           </div>
           <div className="text-lg my-2">
-            <b>Email ID</b> ayush.gupta2002@gmail.com
+            <b>Username</b> {user.currentUser._doc.username}
           </div>
           <div className="text-lg my-2">
-            <b>Phone Number</b> 8076132946
-          </div>
-          <div className="text-lg my-2">
-            <b>Facebook</b> ayush.gupta171102@gmail.com
-          </div>
-          <div className="text-lg my-2">
-            <b>Github</b> ayushgupta2002
-          </div>
-          <div className="text-lg my-2">
-            <b>LinkedIn</b> ayushgupta2002
+            <b>Account Created</b> {user.currentUser._doc.createdAt}
           </div>
         </div>
       </div>

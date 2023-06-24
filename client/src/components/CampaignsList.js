@@ -74,7 +74,7 @@ function CampaignsList({ cat, filters, sort }) {
         perPrice={campaign.perPrice}
         daysLeft={format(campaign.deadline)}
         bigCover
-        key={campaign.id}
+        key={campaign._id}
         id={campaign._id}
       ></Card>
     );
